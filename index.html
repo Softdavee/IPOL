@@ -76,11 +76,11 @@
   <!-- =============================================
        HERO SECTION
        ============================================= -->
-  <section class="flex flex-col items-center mt-16 mb-16 md:mt-[160px] md:mb-[160px] px-4">
+  <section class="flex flex-col items-center mt-24 mb-16 md:mt-[160px] md:mb-[160px] px-4">
 
     <!-- Hero Text -->
     <div class="text-center max-w-[800px]">
-      <h1 class="text-[36px] leading-[38px] md:text-[56px] md:leading-[58px] lg:text-[64px] lg:leading-[65px] font-medium tracking-[-1.08px]">
+      <h1 class="text-[46px] leading-[50px] md:text-[56px] md:leading-[58px] lg:text-[64px] lg:leading-[65px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">Build. Scale. Exit. </span>
         <span class="text-black">Repeat.</span>
       </h1>
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Hero Image -->
-    <div class="mt-12 md:mt-[99px] w-full max-w-[986px]">
+    <div class="mt-20 md:mt-[99px] w-full max-w-[986px]">
       <img
         src="img/hero-img.png"
         alt="Team collaboration"
@@ -159,7 +159,7 @@
 
     <!-- Section Header -->
     <div class="flex flex-col md:flex-row justify-between items-start gap-8">
-      <h2 class="text-[32px] leading-[34px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">We're your</span>
         <span class="text-black"> scaling partner.</span>
       </h2>
@@ -221,7 +221,7 @@
     <div class="flex flex-col md:flex-row gap-10 md:gap-[109px]">
 
       <!-- Left: Title -->
-      <h2 class="text-[32px] leading-[34px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[518px] md:shrink-0">
+      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[518px] md:shrink-0">
         <span class="text-black/50">Two ways we</span>
         <span class="text-black"> partner</span>
       </h2>
@@ -294,7 +294,7 @@
     <!-- Section Header -->
     <div class="text-center">
       <p class="text-[14px] text-black/80 tracking-[-0.28px]">/Portfolio</p>
-      <h2 class="mt-[21px] text-[32px] leading-[34px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[766px] mx-auto">
+      <h2 class="mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[766px] mx-auto">
         <span class="text-black/50">Companies we've</span>
         <span class="text-black"> built &amp; scaled</span>
       </h2>
@@ -341,7 +341,7 @@
             ? `<img src="${logoUrl}" alt="${c.name} logo" class="w-[60px] h-[60px] rounded-[10px] object-cover">`
             : `<div class="w-[60px] h-[60px] rounded-[10px] bg-black/10"></div>`;
           return `
-            <div class="bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px]">
+            <div class="bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px] gap-[28px]">
               <div>
                 <div class="flex items-start justify-between">
                   <div class="flex gap-[15px]">
@@ -369,9 +369,13 @@
       var url = 'https://' + PROJECT_ID + '.api.sanity.io/v2021-10-21/data/query/' + DATASET + '?query=' + query;
 
       fetch(url)
-        .then(function (res) { return res.json(); })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
+          return res.json();
+        })
         .then(function (data) { renderCards(data.result); })
-        .catch(function () {
+        .catch(function (err) {
+          console.error('Portfolio load error:', err);
           document.getElementById('portfolio-grid').innerHTML =
             '<p class="col-span-3 text-center text-[14px] text-black/40 py-16">Could not load portfolio. Please try again later.</p>';
         });
@@ -386,7 +390,7 @@
 
     <!-- Section Header -->
     <div class="flex flex-col md:flex-row justify-between items-start gap-10">
-      <h2 class="text-[32px] leading-[34px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">Why we align with</span>
         <span class="text-black"> your goal.</span>
       </h2>
@@ -453,7 +457,7 @@
     <!-- Section Header -->
     <div class="text-center">
       <p class="text-[14px] text-black/80 tracking-[-0.28px]">/The Journey</p>
-      <h2 class="mt-[21px] text-[32px] leading-[34px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <h2 class="mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         From idea to liquidity
       </h2>
       <p class="mt-[21px] text-[16px] text-black/80 tracking-[-0.28px]">
