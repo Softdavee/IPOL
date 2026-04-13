@@ -40,9 +40,45 @@
     }
     .animate-marquee {
       display: flex;
-      animation: marquee 20s linear infinite;
+      animation: marquee 40s linear infinite;
       width: max-content;
     }
+
+    /* ── Scroll Reveal ── */
+    .reveal,
+    .reveal-scale {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-scale {
+      transform: scale(0.97) translateY(16px);
+      transition-duration: 1.05s;
+    }
+    .reveal.is-visible,
+    .reveal-scale.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    .delay-100 { transition-delay: 100ms; }
+    .delay-150 { transition-delay: 150ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-250 { transition-delay: 250ms; }
+    .delay-300 { transition-delay: 300ms; }
+    .delay-400 { transition-delay: 400ms; }
+    .delay-500 { transition-delay: 500ms; }
+
+    /* ── Hero entrance (above-fold — CSS animation, no observer needed) ── */
+    @keyframes hero-fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .hero-animate { animation: hero-fade-up 0.95s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .hero-d1 { animation-delay: 0ms;   }
+    .hero-d2 { animation-delay: 160ms; }
+    .hero-d3 { animation-delay: 300ms; }
+    .hero-d4 { animation-delay: 480ms; }
   </style>
 </head>
 
@@ -80,17 +116,17 @@
 
     <!-- Hero Text -->
     <div class="text-center max-w-[800px]">
-      <h1 class="text-[46px] leading-[50px] md:text-[56px] md:leading-[58px] lg:text-[64px] lg:leading-[65px] font-medium tracking-[-1.08px]">
+      <h1 class="hero-animate hero-d1 text-[46px] leading-[50px] md:text-[56px] md:leading-[58px] lg:text-[64px] lg:leading-[65px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">Build. Scale. Exit. </span>
         <span class="text-black">Repeat.</span>
       </h1>
-      <p class="mt-[21px] text-[16px] md:text-[18px] text-black/80 tracking-[-0.28px] max-w-[650px] mx-auto">
+      <p class="hero-animate hero-d2 mt-[21px] text-[16px] md:text-[18px] text-black/80 tracking-[-0.28px] max-w-[650px] mx-auto">
         IPO Labs is a venture lab and growth partner for founders who want more than just a product but want a scalable company.
       </p>
     </div>
 
     <!-- Hero Buttons -->
-    <div class="flex gap-2.5 mt-[30px]">
+    <div class="hero-animate hero-d3 flex gap-2.5 mt-[30px]">
       <a href="#model" class="bg-[#f7f7f7] border border-[#f5f5f5] text-black text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:bg-gray-200">
         How it works
       </a>
@@ -100,7 +136,7 @@
     </div>
 
     <!-- Hero Image -->
-    <div class="mt-20 md:mt-[99px] w-full max-w-[986px]">
+    <div class="hero-animate hero-d4 mt-20 md:mt-[99px] w-full max-w-[986px]">
       <img
         src="img/hero-img.png"
         alt="Team collaboration"
@@ -130,11 +166,57 @@
         <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
         <span>Product optimization</span>
         <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Growth system</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Revenue acceleration</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>IPO readiness</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Exit strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product optimization</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span><span>Growth system</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Revenue acceleration</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>IPO readiness</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Exit strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product optimization</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
       </div>
 
       <!-- Set 2 (identical copy for seamless loop) -->
       <div class="flex items-center gap-[30px] whitespace-nowrap text-[14px] tracking-[-0.28px] uppercase pr-[30px]" aria-hidden="true">
         <span>Growth system</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Revenue acceleration</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>IPO readiness</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Exit strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product optimization</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Growth system</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Revenue acceleration</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>IPO readiness</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Exit strategy</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
+        <span>Product optimization</span>
+        <span class="w-1 h-1 bg-black rounded-full shrink-0"></span><span>Growth system</span>
         <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
         <span>Product strategy</span>
         <span class="w-1 h-1 bg-black rounded-full shrink-0"></span>
@@ -159,11 +241,11 @@
 
     <!-- Section Header -->
     <div class="flex flex-col md:flex-row justify-between items-start gap-8">
-      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <h2 class="reveal text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">We're your</span>
         <span class="text-black"> scaling partner.</span>
       </h2>
-      <p class="text-[16px] text-black/80 tracking-[-0.28px] md:max-w-[497px]">
+      <p class="reveal delay-150 text-[16px] text-black/80 tracking-[-0.28px] md:max-w-[497px]">
         IPO Labs is a venture scaling partner, working with founders and teams to scale, optimize, and achieve long-term success.
       </p>
     </div>
@@ -172,7 +254,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-[26px] mt-10 md:mt-[78px]">
 
       <!-- Card 1: Founders with Traction -->
-      <div class="bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[20px]">
+      <div class="reveal bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[20px]">
         <div class="h-[267px] rounded-lg overflow-hidden relative">
           <img src="img/Founders list img.png" alt="" class="relative">
         </div>
@@ -185,7 +267,7 @@
       </div>
 
       <!-- Card 2: Operators with Ideas -->
-      <div class="bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[15px]">
+      <div class="reveal delay-200 bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[15px]">
         <div class="h-[264px] rounded-lg overflow-hidden relative">
           <img src="img/Operators list img.png" alt="" class="relative">
         </div>
@@ -198,7 +280,7 @@
       </div>
 
       <!-- Card 3: Teams Seeking Exits -->
-      <div class="bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[15px]">
+      <div class="reveal delay-400 bg-[#fafafa] border border-black/10 rounded-[14px] overflow-hidden pt-2.5 px-2.5 pb-[15px]">
         <div class="h-[264px] rounded-lg overflow-hidden relative">
           <img src="img/Teams list img.png" alt="" class="relative">
         </div>
@@ -221,7 +303,7 @@
     <div class="flex flex-col md:flex-row gap-10 md:gap-[109px]">
 
       <!-- Left: Title -->
-      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[518px] md:shrink-0">
+      <h2 class="reveal text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[518px] md:shrink-0">
         <span class="text-black/50">Two ways we</span>
         <span class="text-black"> partner</span>
       </h2>
@@ -230,7 +312,7 @@
       <div class="flex flex-col gap-10 md:gap-[77px] md:max-w-[513px]">
 
         <!-- Option 1: Scaling Existing Businesses -->
-        <div>
+        <div class="reveal delay-150">
           <h3 class="text-[22px] font-semibold tracking-[-0.44px]">1. Scaling Existing Businesses</h3>
           <p class="mt-[15px] text-[16px] text-black/60 tracking-[-0.28px]">
             If you already have traction, we help you go further, faster.
@@ -256,7 +338,7 @@
         </div>
 
         <!-- Option 2: Building From Idea Stage -->
-        <div>
+        <div class="reveal delay-300">
           <h3 class="text-[22px] font-semibold tracking-[-0.44px]">2. Building From Idea Stage</h3>
           <p class="mt-[15px] text-[16px] text-black/60 tracking-[-0.28px]">
             You have the idea, we help you turn it into a real company.
@@ -293,12 +375,12 @@
 
     <!-- Section Header -->
     <div class="text-center">
-      <p class="text-[14px] text-black/80 tracking-[-0.28px]">/Portfolio</p>
-      <h2 class="mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[766px] mx-auto">
+      <p class="reveal text-[14px] text-black/80 tracking-[-0.28px]">/Portfolio</p>
+      <h2 class="reveal delay-100 mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px] md:max-w-[766px] mx-auto">
         <span class="text-black/50">Companies we've</span>
         <span class="text-black"> built &amp; scaled</span>
       </h2>
-      <p class="mt-[21px] text-[16px] text-black/80 tracking-[-0.28px]">
+      <p class="reveal delay-200 mt-[21px] text-[16px] text-black/80 tracking-[-0.28px]">
         A look at the ventures we've partnered with, from idea stage to scale.
       </p>
     </div>
@@ -335,13 +417,15 @@
           grid.innerHTML = '<p class="col-span-3 text-center text-[14px] text-black/40 py-16">No portfolio companies added yet.</p>';
           return;
         }
-        grid.innerHTML = companies.map(function (c) {
+        const cardDelays = ['', 'delay-200', 'delay-400'];
+        grid.innerHTML = companies.map(function (c, i) {
+          const delay = cardDelays[i % 3];
           const logoUrl = sanityImageUrl(c.logo);
           const logoImg = logoUrl
             ? `<img src="${logoUrl}" alt="${c.name} logo" class="w-[60px] h-[60px] rounded-[10px] object-cover">`
             : `<div class="w-[60px] h-[60px] rounded-[10px] bg-black/10"></div>`;
           return `
-            <div class="bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px] gap-[28px]">
+            <div class="reveal ${delay} bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px] gap-[28px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-black/20 cursor-pointer">
               <div>
                 <div class="flex items-start justify-between">
                   <div class="flex gap-[15px]">
@@ -355,12 +439,12 @@
                 </div>
                 <p class="mt-[30px] text-[14px] text-black/80 tracking-[-0.28px] leading-[21px]">${c.description}</p>
               </div>
-              <div class="mt-auto border-t border-black/10 pt-[12px] flex items-center justify-between">
-                <a href="${c.slug && c.slug.current ? 'company.html?slug=' + c.slug.current : '#'}" class="text-[14px] text-brand tracking-[-0.28px] hover:underline">View full details</a>
-                <div class="w-7 h-7 rounded-[5px] bg-brand/5 border border-brand/20 flex items-center justify-center">
+              <a href="${c.slug && c.slug.current ? 'company.html?slug=' + c.slug.current : '#'}" class="mt-auto border-t border-black/10 pt-[12px] flex items-center justify-between group/cta transition-colors duration-300 hover:text-brand">
+                <span class="text-[14px] text-brand tracking-[-0.28px] group-hover/cta:underline">View full details</span>
+                <div class="w-7 h-7 rounded-[5px] bg-brand/5 border border-brand/20 flex items-center justify-center transition-colors duration-300 group-hover/cta:bg-brand/15 group-hover/cta:border-brand/40">
                   ${ARROW_SVG}
                 </div>
-              </div>
+              </a>
             </div>`;
         }).join('');
       }
@@ -373,7 +457,15 @@
           if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
           return res.json();
         })
-        .then(function (data) { renderCards(data.result); })
+        .then(function (data) {
+          renderCards(data.result);
+          // Observe newly rendered portfolio cards
+          if (window.__revealObserver) {
+            document.querySelectorAll('#portfolio-grid .reveal').forEach(function (el) {
+              window.__revealObserver.observe(el);
+            });
+          }
+        })
         .catch(function (err) {
           console.error('Portfolio load error:', err);
           document.getElementById('portfolio-grid').innerHTML =
@@ -390,11 +482,11 @@
 
     <!-- Section Header -->
     <div class="flex flex-col md:flex-row justify-between items-start gap-10">
-      <h2 class="text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <h2 class="reveal text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         <span class="text-black/50">Why we align with</span>
         <span class="text-black"> your goal.</span>
       </h2>
-      <p class="text-[16px] text-black/80 tracking-[-0.28px] md:max-w-[497px]">
+      <p class="reveal delay-150 text-[16px] text-black/80 tracking-[-0.28px] md:max-w-[497px]">
         Most agencies get paid regardless of results. Most accelerators disappear after demo day. We win when you win.
       </p>
     </div>
@@ -403,7 +495,7 @@
     <div class="flex flex-col md:flex-row gap-[45px] items-center mt-10 md:mt-[107px]">
 
       <!-- Left: Image -->
-      <div class="w-full md:w-[615px] h-[250px] md:h-[380px] rounded-[20px] overflow-hidden relative bg-white md:shrink-0">
+      <div class="reveal-scale w-full md:w-[615px] h-[250px] md:h-[380px] rounded-[20px] overflow-hidden relative bg-white md:shrink-0">
         <img
           src="img/Alignment section image container.png"
           alt="City skyline"
@@ -416,28 +508,28 @@
       <!-- Right: Feature List -->
       <div class="flex flex-col gap-[33px] max-w-[464px]">
 
-        <div>
+        <div class="reveal delay-100">
           <h3 class="text-[18px] font-semibold tracking-[-0.36px]">Long-Term Partnership</h3>
           <p class="mt-3 text-[16px] text-black/60 tracking-[-0.28px]">
             We stay involved through the entire scaling journey, not just the build phase.
           </p>
         </div>
 
-        <div>
+        <div class="reveal delay-200">
           <h3 class="text-[18px] font-semibold tracking-[-0.36px]">Skin in the Game</h3>
           <p class="mt-3 text-[16px] text-black/60 tracking-[-0.28px]">
             Equity and revenue-share models ensure we're genuinely invested in your success.
           </p>
         </div>
 
-        <div>
+        <div class="reveal delay-300">
           <h3 class="text-[18px] font-semibold tracking-[-0.36px]">Operator-Led Execution</h3>
           <p class="mt-3 text-[16px] text-black/60 tracking-[-0.28px]">
             We don't just advise; we build, test, and execute alongside you in the trenches.
           </p>
         </div>
 
-        <div>
+        <div class="reveal delay-400">
           <h3 class="text-[18px] font-semibold tracking-[-0.36px]">Built for Scale</h3>
           <p class="mt-3 text-[16px] text-black/60 tracking-[-0.28px]">
             Everything we do is designed with one goal: make your company fundable, scalable, and exit-ready.
@@ -456,20 +548,20 @@
 
     <!-- Section Header -->
     <div class="text-center">
-      <p class="text-[14px] text-black/80 tracking-[-0.28px]">/The Journey</p>
-      <h2 class="mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
+      <p class="reveal text-[14px] text-black/80 tracking-[-0.28px]">/The Journey</p>
+      <h2 class="reveal delay-100 mt-[21px] text-[42px] leading-[44px] md:text-[54px] md:leading-[55px] font-medium tracking-[-1.08px]">
         From idea to liquidity
       </h2>
-      <p class="mt-[21px] text-[16px] text-black/80 tracking-[-0.28px]">
+      <p class="reveal delay-200 mt-[21px] text-[16px] text-black/80 tracking-[-0.28px]">
         A look at the ventures we've partnered with, from idea stage to scale.
       </p>
     </div>
 
     <!-- Journey Cards -->
-    <div class="flex flex-col md:flex-row gap-[17px] md:items-center mt-10 md:mt-[91px]">
+    <div class="flex flex-col md:flex-row gap-[15px] md:items-center mt-10 md:mt-[91px]">
 
       <!-- Card 1: Launch Faster -->
-      <div class="bg-[rgba(168,188,198,0.3)] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[550px] md:h-[530px] relative">
+      <div class="reveal bg-[rgba(168,188,198,0.3)] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[550px] md:h-[530px] relative">
         <div class="relative top-8 left-[25px] w-[257px]">
           <h3 class="text-[24px] font-semibold tracking-[-0.36px]">Launch Faster</h3>
           <p class="mt-3 text-[16px] text-black/60 tracking-[-0.38px]">
@@ -484,7 +576,7 @@
       </div>
 
       <!-- Card 2: Attract Capital (dark) -->
-      <div class="bg-[#1a1a1a] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[350px] md:h-[414px] relative md:self-end">
+      <div class="reveal delay-200 bg-[#1a1a1a] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[350px] md:h-[414px] relative">
         <img
           src="img/worldmap.png"
           alt="Abstract visual"
@@ -499,7 +591,7 @@
       </div>
 
       <!-- Card 3: Product-Market Fit (green tint) -->
-      <div class="bg-[rgba(211,235,223,0.6)] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[470px] md:h-[530px] relative">
+      <div class="reveal delay-400 bg-[rgba(211,235,223,0.6)] rounded-[30px] overflow-hidden w-full md:w-[352px] h-[470px] md:h-[530px] relative">
         <div class="absolute top-[30px] left-[30px] w-[280px]">
           <p class="text-[14px] text-black/80 tracking-[-0.28px]">/The Journey</p>
           <h3 class="mt-[21px] text-[34px] font-medium tracking-[-0.68px] leading-tight">
@@ -527,7 +619,7 @@
     <div class="bg-[#fafafa] border border-black/20 rounded-[40px] p-[15px] flex flex-col md:flex-row gap-[15px]">
 
       <!-- Left: "This IS for you" -->
-      <div class="flex-1 bg-white border-4 border-brand rounded-[30px] p-6 relative">
+      <div class="reveal flex-1 bg-white border-4 border-brand rounded-[30px] p-6 relative">
         <h3 class="text-[22px] font-semibold tracking-[-0.36px] mb-8">This is for you if</h3>
 
         <div class="flex flex-col gap-[12px]">
@@ -551,7 +643,7 @@
       </div>
 
       <!-- Right: "This is NOT for you" -->
-      <div class="flex-1 rounded-[30px] p-6">
+      <div class="reveal delay-200 flex-1 rounded-[30px] p-6">
         <h3 class="text-[22px] font-semibold tracking-[-0.36px] mb-8">
           This is <span class="text-[#f40000]">not</span> for you if
         </h3>
@@ -587,7 +679,7 @@
     <div class="flex flex-col md:flex-row gap-2.5">
 
       <!-- Left: Image -->
-      <div class="w-full md:w-[352px] h-[250px] md:h-[308px] bg-[#e5f3ec] rounded-[30px] overflow-visible relative md:shrink-0 flex justify-center">
+      <div class="reveal w-full md:w-[352px] h-[250px] md:h-[308px] bg-[#e5f3ec] rounded-[30px] overflow-visible relative md:shrink-0 flex justify-center">
         <img
           src="img/CTA image container.png"
           alt="Person"
@@ -596,7 +688,7 @@
       </div>
 
       <!-- Right: Text + Button -->
-      <div class="flex-1 bg-[#e5f3ec] rounded-[30px] flex items-center px-6 py-8 md:px-[60px] md:py-0">
+      <div class="reveal delay-150 flex-1 bg-[#e5f3ec] rounded-[30px] flex items-center px-6 py-8 md:px-[60px] md:py-0">
         <div class="max-w-[484px]">
           <h2 class="text-[34px] font-semibold tracking-[-0.68px] leading-tight">
             Ready to build something that actually scales?
@@ -643,6 +735,29 @@
 
     </div>
   </footer>
+
+
+  <!-- ── Scroll Reveal Observer ── -->
+  <script>
+    (function () {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      // Observe all static reveal elements
+      document.querySelectorAll('.reveal, .reveal-scale').forEach(function (el) {
+        observer.observe(el);
+      });
+
+      // Expose for dynamic content (portfolio cards)
+      window.__revealObserver = observer;
+    })();
+  </script>
 
 </body>
 </html>
