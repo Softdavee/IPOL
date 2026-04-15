@@ -98,12 +98,12 @@
     <!-- Navigation Links -->
     <nav class="hidden sm:flex gap-[30px] text-[14px] tracking-[-0.28px]">
       <a href="#about" class="hover:opacity-70">About</a>
-      <a href="#portfolio" class="hover:opacity-70">Portfolio</a>
+      <a href="portfolio.html" class="hover:opacity-70">Portfolio</a>
       <a href="#model" class="hover:opacity-70">Model</a>
     </nav>
 
     <!-- CTA Button -->
-    <a href="#cta" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
+    <a href="work-with-us.html" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
       Work with us
     </a>
   </header>
@@ -130,7 +130,7 @@
       <a href="#model" class="bg-[#f7f7f7] border border-[#f5f5f5] text-black text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:bg-gray-200">
         How it works
       </a>
-      <a href="#cta" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
+      <a href="work-with-us.html" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
         Work with us
       </a>
     </div>
@@ -385,12 +385,21 @@
       </p>
     </div>
 
-    <!-- Portfolio Cards — populated from Sanity CMS -->
+    <!-- Portfolio Cards — populated from Sanity CMS (3 shown max) -->
     <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-3 gap-[17px] mt-10 md:mt-[75px]">
       <!-- Loading state -->
       <div class="col-span-3 flex justify-center py-16">
         <p class="text-[14px] text-black/40 tracking-[-0.28px]">Loading portfolio...</p>
       </div>
+    </div>
+
+    <!-- View All Button -->
+    <div id="portfolio-view-all" class="hidden mt-10 flex justify-center">
+      <a href="portfolio.html"
+         class="inline-flex items-center gap-2 border border-black/15 bg-[#099D51] text-white text-[14px] tracking-[-0.28px] px-6 py-[10px] rounded-full hover:bg-[#08C463] hover:text-white hover:border-[#099D51] transition-colors duration-200">
+        View all
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
     </div>
 
   </section>
@@ -424,8 +433,9 @@
           const logoImg = logoUrl
             ? `<img src="${logoUrl}" alt="${c.name} logo" class="w-[60px] h-[60px] rounded-[10px] object-cover">`
             : `<div class="w-[60px] h-[60px] rounded-[10px] bg-black/10"></div>`;
+          const href = c.slug && c.slug.current ? 'company.html?slug=' + c.slug.current : '#';
           return `
-            <div class="reveal ${delay} bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px] gap-[28px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-black/20 cursor-pointer">
+            <a href="${href}" class="reveal ${delay} bg-[#fafafa] border border-black/10 rounded-2xl p-5 flex flex-col h-auto md:h-[344px] gap-[28px] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:border-black/20 group/card">
               <div>
                 <div class="flex items-start justify-between">
                   <div class="flex gap-[15px]">
@@ -439,17 +449,25 @@
                 </div>
                 <p class="mt-[30px] text-[14px] text-black/80 tracking-[-0.28px] leading-[21px]">${c.description}</p>
               </div>
-              <a href="${c.slug && c.slug.current ? 'company.html?slug=' + c.slug.current : '#'}" class="mt-auto border-t border-black/10 pt-[12px] flex items-center justify-between group/cta transition-colors duration-300 hover:text-brand">
-                <span class="text-[14px] text-brand tracking-[-0.28px] group-hover/cta:underline">View full details</span>
-                <div class="w-7 h-7 rounded-[5px] bg-brand/5 border border-brand/20 flex items-center justify-center transition-colors duration-300 group-hover/cta:bg-brand/15 group-hover/cta:border-brand/40">
+              <div class="mt-auto border-t border-black/10 pt-[12px] flex items-center justify-between">
+                <span class="text-[14px] text-brand tracking-[-0.28px] group-hover/card:underline">View full details</span>
+                <div class="w-7 h-7 rounded-[5px] bg-brand/5 border border-brand/20 flex items-center justify-center transition-colors duration-300 group-hover/card:bg-brand/15 group-hover/card:border-brand/40">
                   ${ARROW_SVG}
                 </div>
-              </a>
-            </div>`;
+              </div>
+            </a>`;
         }).join('');
       }
 
-      var query = encodeURIComponent('*[_type == "project"] | order(order asc, _createdAt asc) { _id, name, slug, location, foundedYear, logo, description, websiteUrl }');
+      // Fetch homepage-featured companies (from homepageSettings singleton) with a
+      // fallback to the first 3 projects ordered by `order` / creation date.
+      var query = encodeURIComponent(
+        '{'
+        + '"featured": *[_type == "homepageSettings"][0].featuredCompanies[]->{ _id, name, slug, location, foundedYear, logo, description, websiteUrl },'
+        + '"fallback": *[_type == "project"] | order(order asc, _createdAt asc) [0...3]{ _id, name, slug, location, foundedYear, logo, description, websiteUrl },'
+        + '"total": count(*[_type == "project"])'
+        + '}'
+      );
       var url = 'https://' + PROJECT_ID + '.api.sanity.io/v2021-10-21/data/query/' + DATASET + '?query=' + query;
 
       fetch(url)
@@ -458,7 +476,15 @@
           return res.json();
         })
         .then(function (data) {
-          renderCards(data.result);
+          var r = data.result || {};
+          // Use curated featured list if it has entries, otherwise fall back
+          var companies = (r.featured && r.featured.length > 0) ? r.featured : (r.fallback || []);
+          renderCards(companies);
+          // Show "View all" if there are more companies than what's displayed
+          if ((r.total || 0) > companies.length) {
+            var btn = document.getElementById('portfolio-view-all');
+            if (btn) btn.classList.remove('hidden');
+          }
           // Observe newly rendered portfolio cards
           if (window.__revealObserver) {
             document.querySelectorAll('#portfolio-grid .reveal').forEach(function (el) {
@@ -696,7 +722,7 @@
           <p class="mt-[21px] text-[14px] text-black/80 tracking-[-0.28px]">
             We only partner with selected number of founders each quarter. If you're serious about building a real company, not just launching something, we want to hear from you.
           </p>
-          <a href="#" class="inline-block mt-[26px] bg-brand text-white text-[14px] tracking-[-0.28px] px-[26px] py-[11px] rounded-full hover:opacity-90">
+          <a href="work-with-us.html" class="inline-block mt-[26px] bg-brand text-white text-[14px] tracking-[-0.28px] px-[26px] py-[11px] rounded-full hover:opacity-90">
             Apply to IPOLabs
           </a>
         </div>
@@ -720,7 +746,7 @@
         </div>
         <nav class="flex gap-[30px] text-[14px] text-white tracking-[-0.28px]">
           <a href="#about" class="hover:opacity-70">About</a>
-          <a href="#portfolio" class="hover:opacity-70">Portfolio</a>
+          <a href="portfolio.html" class="hover:opacity-70">Portfolio</a>
           <a href="#model" class="hover:opacity-70">Model</a>
         </nav>
       </div>
