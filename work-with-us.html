@@ -80,6 +80,34 @@
       background-image: radial-gradient(circle, rgba(9,157,81,0.18) 1px, transparent 1px);
       background-size: 22px 22px;
     }
+
+    /* ── Hamburger icon ── */
+    .ham-line {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: black;
+      border-radius: 2px;
+      transform-origin: center;
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity   0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #menu-toggle.open .ham-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #menu-toggle.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #menu-toggle.open .ham-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Mobile menu panel ── */
+    #mobile-menu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      border-bottom: 1px solid transparent;
+    }
+    #mobile-menu.open {
+      grid-template-rows: 1fr;
+      border-bottom-color: rgba(0,0,0,0.10);
+    }
+    #mobile-menu > div { overflow: hidden; }
   </style>
 </head>
 
@@ -96,15 +124,36 @@
     </a>
 
     <nav class="hidden sm:flex gap-[30px] text-[14px] tracking-[-0.28px]">
-      <a href="index.html#about"  class="hover:opacity-70">About</a>
-      <a href="portfolio.html"    class="hover:opacity-70">Portfolio</a>
-      <a href="index.html#model"  class="hover:opacity-70">Model</a>
+      <a href="index.html#about" class="hover:opacity-70">About</a>
+      <a href="portfolio.html"   class="hover:opacity-70">Portfolio</a>
+      <a href="index.html#model" class="hover:opacity-70">Model</a>
     </nav>
 
-    <a href="work-with-us.html" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
-      Work with us
-    </a>
+    <div class="flex items-center gap-3">
+      <a href="work-with-us.html" class="hidden sm:inline-flex bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
+        Work with us
+      </a>
+      <button id="menu-toggle" class="sm:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px]" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
   </header>
+
+  <!-- Mobile Menu Panel -->
+  <div id="mobile-menu" class="sm:hidden bg-white px-4">
+    <div>
+      <nav class="flex flex-col gap-5 py-6 text-[16px] tracking-[-0.28px]">
+        <a href="index.html#about" class="hover:opacity-70">About</a>
+        <a href="portfolio.html"   class="hover:opacity-70">Portfolio</a>
+        <a href="index.html#model" class="hover:opacity-70">Model</a>
+        <a href="work-with-us.html" class="inline-flex items-center justify-center bg-brand text-white text-[14px] tracking-[-0.28px] px-4 py-[10px] rounded-[7px] hover:opacity-90 mt-1">
+          Work with us
+        </a>
+      </nav>
+    </div>
+  </div>
 
 
   <!-- =============================================
@@ -186,6 +235,11 @@
         
 
           <form id="contact-form" novalidate class="space-y-5">
+
+            <!-- Web3Forms: replace value with your access key from web3forms.com -->
+            <input type="hidden" name="access_key" value="PASTE_YOUR_KEY_HERE">
+            <input type="hidden" name="subject" value="New IPO Labs Application">
+            <input type="hidden" name="from_name" value="IPO Labs Website">
 
             <!-- Row: Full Name + Email -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -275,7 +329,7 @@
             </div>
             <h3 class="text-[22px] font-semibold tracking-[-0.44px]">Application received!</h3>
             <p class="mt-2 text-[15px] text-black/60 tracking-[-0.28px] max-w-[380px] mx-auto leading-[24px]">
-              Thanks for reaching out. We'll review your submission and be in touch within 48 hours.
+              Thanks for reaching out. We'll review your submission and be in touch.
             </p>
             <a href="index.html" class="inline-block mt-6 text-[14px] text-brand font-medium tracking-[-0.28px] hover:underline">
               ← Back to homepage
@@ -389,13 +443,56 @@
         e.preventDefault();
         if (!validate()) return;
 
-        // Hide form, show success
-        form.style.display = 'none';
-        successEl.style.display = 'block';
+        var btn = form.querySelector('button[type="submit"]');
+        var originalBtnHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = 'Sending…';
 
-        // Scroll success message into view
-        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        var data = new FormData(form);
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (json) {
+            if (json.success) {
+              form.style.display = 'none';
+              successEl.style.display = 'block';
+              successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              btn.disabled = false;
+              btn.innerHTML = originalBtnHTML;
+              alert('Something went wrong. Please try again.');
+            }
+          })
+          .catch(function () {
+            btn.disabled = false;
+            btn.innerHTML = originalBtnHTML;
+            alert('Network error. Please check your connection and try again.');
+          });
       });
+    })();
+  </script>
+
+  <!-- ── Hamburger Menu Toggle ── -->
+  <script>
+    (function () {
+      var toggle = document.getElementById('menu-toggle');
+      var menu   = document.getElementById('mobile-menu');
+      var links  = menu.querySelectorAll('a');
+      function close() {
+        toggle.classList.remove('open');
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+      toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.toggle('open');
+        toggle.classList.toggle('open', isOpen);
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      links.forEach(function (link) { link.addEventListener('click', close); });
+      window.addEventListener('resize', function () { if (window.innerWidth >= 640) close(); });
     })();
   </script>
 

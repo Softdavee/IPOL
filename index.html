@@ -69,6 +69,34 @@
     .delay-400 { transition-delay: 400ms; }
     .delay-500 { transition-delay: 500ms; }
 
+    /* ── Hamburger icon ── */
+    .ham-line {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: black;
+      border-radius: 2px;
+      transform-origin: center;
+      transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity   0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #menu-toggle.open .ham-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #menu-toggle.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #menu-toggle.open .ham-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Mobile menu panel (grid trick = buttery smooth) ── */
+    #mobile-menu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+      border-bottom: 1px solid transparent;
+    }
+    #mobile-menu.open {
+      grid-template-rows: 1fr;
+      border-bottom-color: rgba(0,0,0,0.10);
+    }
+    #mobile-menu > div { overflow: hidden; }
+
     /* ── Hero entrance (above-fold — CSS animation, no observer needed) ── */
     @keyframes hero-fade-up {
       from { opacity: 0; transform: translateY(50px); }
@@ -95,18 +123,42 @@
       <span class="font-bold text-[16px] tracking-[-0.32px]">IPOlabs</span>
     </a>
 
-    <!-- Navigation Links -->
+    <!-- Navigation Links (desktop) -->
     <nav class="hidden sm:flex gap-[30px] text-[14px] tracking-[-0.28px]">
       <a href="#about" class="hover:opacity-70">About</a>
       <a href="portfolio.html" class="hover:opacity-70">Portfolio</a>
       <a href="#model" class="hover:opacity-70">Model</a>
     </nav>
 
-    <!-- CTA Button -->
-    <a href="work-with-us.html" class="bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
-      Work with us
-    </a>
+    <!-- Right side -->
+    <div class="flex items-center gap-3">
+      <!-- CTA Button (hidden on mobile, shown in mobile menu) -->
+      <a href="work-with-us.html" class="hidden sm:inline-flex bg-brand text-white text-[14px] tracking-[-0.28px] px-3 py-[7px] rounded-[7px] hover:opacity-90">
+        Work with us
+      </a>
+
+      <!-- Hamburger (mobile only) -->
+      <button id="menu-toggle" class="sm:hidden flex flex-col justify-center items-center w-9 h-9 gap-[5px]" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
   </header>
+
+  <!-- Mobile Menu Panel -->
+  <div id="mobile-menu" class="sm:hidden bg-white px-4">
+    <div>
+      <nav class="flex flex-col gap-5 py-6 text-[16px] tracking-[-0.28px]">
+        <a href="#about"         class="hover:opacity-70" id="m-about">About</a>
+        <a href="portfolio.html" class="hover:opacity-70" id="m-portfolio">Portfolio</a>
+        <a href="#model"         class="hover:opacity-70" id="m-model">Model</a>
+        <a href="work-with-us.html" class="inline-flex items-center justify-center bg-brand text-white text-[14px] tracking-[-0.28px] px-4 py-[10px] rounded-[7px] hover:opacity-90 mt-1">
+          Work with us
+        </a>
+      </nav>
+    </div>
+  </div>
 
 
   <!-- =============================================
@@ -762,6 +814,38 @@
     </div>
   </footer>
 
+
+  <!-- ── Hamburger Menu Toggle ── -->
+  <script>
+    (function () {
+      var toggle = document.getElementById('menu-toggle');
+      var menu   = document.getElementById('mobile-menu');
+
+      // Close menu when a nav link is tapped
+      var links = menu.querySelectorAll('a');
+
+      function close() {
+        toggle.classList.remove('open');
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', function () {
+        var isOpen = menu.classList.toggle('open');
+        toggle.classList.toggle('open', isOpen);
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      links.forEach(function (link) {
+        link.addEventListener('click', close);
+      });
+
+      // Close on resize back to desktop
+      window.addEventListener('resize', function () {
+        if (window.innerWidth >= 640) close();
+      });
+    })();
+  </script>
 
   <!-- ── Scroll Reveal Observer ── -->
   <script>
